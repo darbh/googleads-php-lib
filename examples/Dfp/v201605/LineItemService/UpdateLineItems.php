@@ -39,7 +39,7 @@ require_once 'Google/Api/Ads/Dfp/Util/v201605/StatementBuilder.php';
 require_once dirname(__FILE__) . '/../../../Common/ExampleUtils.php';
 
 // Set the ID of the line item to update.
-$lineItemId = 'INSERT_LINE_ITEM_ID_HERE';
+$lineItemId = '60337121'; // INSERT_LINE_ITEM_ID_HERE';
 
 try {
   // Get DfpUser from credentials in "../auth.ini"
@@ -63,11 +63,12 @@ try {
   $page = $lineItemService->getLineItemsByStatement(
       $statementBuilder->ToStatement());
   $lineItem = $page->results[0];
-
+var_dump( $lineItem ); 
   // Update the line item's priority to high if possible.
-  if ($lineItem->lineItemType === 'STANDARD') {
+  #Commented_by_HP if ($lineItem->lineItemType === 'STANDARD') {
+  if(1){
     $lineItem->priority = 6;
-
+$lineItem->allowOverbook = true; // ADDED_BY_HP
     // Update the line item on the server.
     $lineItems = $lineItemService->updateLineItems(array($lineItem));
 

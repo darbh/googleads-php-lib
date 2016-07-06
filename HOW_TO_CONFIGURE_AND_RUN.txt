@@ -1,0 +1,78 @@
+#1
+Obtain OAuth2 values 
+
+OAuth2 Online Doc 
+https://github.com/googleads/googleads-php-lib/wiki/API-access-using-own-credentials-(installed-application-flow)
+OAuth2 Link 
+https://console.developers.google.com/projectselector/apis/credentials
+
+vim src/Google/Api/Ads/Dfp/auth.ini
+
+networkCode = "12851361" ( Login to DFP > Admin > Network code )
+
+; Any string of your choosing to identify your application to DFP.
+applicationName = "App_o1" ;VALUE 
+
+[OAUTH2]
+client_id = "341146534626-ajtnjfnmqhgki7alb8hb47mdljt67scb.apps.googleusercontent.com"
+client_secret = "5ZYVoZ0fM5H6ylAt_5ftgNAI"
+
+ 
+
+#2
+In Brwoser Login To DFP , This will required in Step 3
+
+
+3#
+php examples/Dfp/Auth/GetRefreshToken.php 
+
+Log in to your DFP account and open the following URL:
+https://accounts.google.com/o/oauth2/auth?response_type=code&client_id=341146534626-ajtnjfnmqhgki7alb8hb47mdljt67scb.apps.googleusercontent.com&redirect_uri=urn%3Aietf%3Awg%3Aoauth%3A2.0%3Aoob&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fdfp&access_type=offline
+
+After approving the token enter the authorization code here: 4/jRYztRucstmp8oqcnjhzzYo6wMxbLkQPNmhpMsyI3sU
+
+Your refresh token is: 1/sVoi5nc9e16L_bAt-_pfbZIryH-pzmSaPAlU2kf0Fhc
+
+In your auth.ini file, edit the refresh_token line to be:
+refresh_token = "1/sVoi5nc9e16L_bAt-_pfbZIryH-pzmSaPAlU2kf0Fhc"
+
+
+#4
+vim src/Google/Api/Ads/Dfp/auth.ini
+
+refresh_token = "1/sVoi5nc9e16L_bAt-_pfbZIryH-pzmSaPAlU2kf0Fhc"
+
+
+#5
+php  examples/Dfp/v201605/LineItemService/GetAllLineItems.php 
+0) Line item with ID 60337121, belonging to order 287258921, and name 'eng_test_line_item_01' was found.
+1) Line item with ID 67282841, belonging to order 331328801, and name 'dfp_split_order_1_lineitem_1' was found.
+2) Line item with ID 67282961, belonging to order 331329761, and name 'dfp_split_order_2_lineitem_1' was found.
+
+
+#6
+vim examples/Dfp/v201605/LineItemService/UpdateLineItems.php
+
+
+$lineItemId = '60337121'; //INSERT_LINE_ITEM_ID_HERE
+..
+
+// if ($lineItem->lineItemType === 'STANDARD') { 
+if ( 1 ) {
+
+.
+.
+$lineItem->priority = 6 ;//
+$lineItem->allowOverbook = true ; //Allow OverBooks 
+
+php examples/Dfp/v201605/LineItemService/UpdateLineItems.php
+
+Line item with ID 60337121, name 'eng_test_line_item_01' was updated.
+
+
+
+
+
+
+
+
